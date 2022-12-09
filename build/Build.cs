@@ -4,7 +4,7 @@ using System.Xml;
 [GitHubActions( nameof(NuGetApiKey), GitHubActionsImage.WindowsLatest )]
 public sealed class Build : NukeBuild
 {
-    [Parameter] [Secret] readonly String NuGetApiKey=default!;
+    [Parameter] [Secret] readonly String NuGetApiKey = default!;
     [Solution( GenerateProjects = true )] readonly Solution Solution = default!;
 
     AbsolutePath ResultDirectory => RootDirectory / "result";
@@ -252,7 +252,7 @@ public sealed class Build : NukeBuild
 
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
-        .OnlyWhenDynamic( () => IsServerBuild || BuildServerOverride )
+        .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
@@ -261,23 +261,24 @@ public sealed class Build : NukeBuild
                     Log.Information( "Start publishing package '{0}'", x );
 
                     // Push to GitHub setup from within the GH action script
-                    DotNetNuGetPush(c => c
-                                        .SetTargetPath(x)
-                                        .SetSource("github")
-                                        .EnableSkipDuplicate() );
+                    DotNetNuGetPush( c => c
+                                         .SetTargetPath( x )
+                                         .SetSource( "github" )
+                                         .EnableSkipDuplicate() );
+
+                    Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
                     
                     // Push to NuGet.org
-                    DotNetNuGetPush(c => c
-                                        .SetTargetPath(x)
-                                        .SetApiKey( NuGetApiKey )
-                                        .SetSource("https://api.nuget.org/v3/index.json")
-                                        .EnableSkipDuplicate() );
+                    DotNetNuGetPush( c => c
+                                         .SetTargetPath( x )
+                                         .SetApiKey( NuGetApiKey )
+                                         .SetSource( "https://api.nuget.org/v3/index.json" )
+                                         .EnableSkipDuplicate() );
                 } );
         } );
 
     Target CreateAndPushGitTag => _ => _
-        .OnlyWhenDynamic( () => IsServerBuild || BuildServerOverride )
-        .OnlyWhenDynamic( () => Repository.IsOnMainOrMasterBranch() || MasterBranchOverride )
+        .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .DependsOn( PublishNuGetPackage )
         .Executes( () =>
         {
