@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Xml;
-using Nuke.Common.CI.GitHubActions;
 
 public sealed class Build : NukeBuild
 {
@@ -249,12 +248,6 @@ public sealed class Build : NukeBuild
                             .SetOutputDirectory( ResultNuGetDirectory ) );
         } );
 
-    
-    string GithubNugetFeed => GitHubActions != null
-        ? $"https://nuget.pkg.github.com/{GitHubActions.RepositoryOwner}/index.json"
-        : null;
-    static GitHubActions GitHubActions => GitHubActions.Instance;
-
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
         .OnlyWhenDynamic( () => IsServerBuild || BuildServerOverride )
@@ -264,7 +257,7 @@ public sealed class Build : NukeBuild
                 .ForEach( x =>
                 {
                     Log.Information( "Start publishing package '{0}' to NuGet.org", x );
-                    
+
                     /*
                     DotNetNuGetPush(s => s
                                         .SetTargetPath(x)
