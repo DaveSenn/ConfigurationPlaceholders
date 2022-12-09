@@ -8,7 +8,9 @@ on:
     branches: [ master ]
 
 jobs:
-  Explore-GitHub-Actions:
+  build:
     runs-on: windows-latest
     steps:
-      - run: build.ps1
+    - name: Nuke Build
+      shell: pwsh
+      run: .\build.ps1
