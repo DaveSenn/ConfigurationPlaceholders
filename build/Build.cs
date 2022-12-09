@@ -1,14 +1,19 @@
 ﻿using System.Text;
 using System.Xml;
 
-[GitHubActions( nameof(NUGET_API_KEY), GitHubActionsImage.WindowsLatest,
-                CacheKeyFiles = new[] { "**/global.json", "**/*.csproj" },
+/*
+[GitHubActions( "", GitHubActionsImage.WindowsLatest,
+                CacheKeyFiles = new[] { " * * / global.json", " * * / *.csproj" },
                 CacheIncludePatterns = new[] { ".nuke/temp", "~/.nuget/packages" },
-                CacheExcludePatterns = new String[0] )]
+                CacheExcludePatterns = new String[0] ,
+                ImportSecrets = new []
+                {
+                    nameof(NUGET_API_KEY)
+                })]
+*/
 public sealed class Build : NukeBuild
 {
     // ReSharper disable once InconsistentNaming
-    [Parameter] [Secret] readonly String NUGET_API_KEY = default!;
     [Solution( GenerateProjects = true )] readonly Solution Solution = default!;
 
     AbsolutePath ResultDirectory => RootDirectory / "result";
@@ -254,19 +259,17 @@ public sealed class Build : NukeBuild
                             .SetOutputDirectory( ResultNuGetDirectory ) );
         } );
 
-    public Int32 L => NUGET_API_KEY?.Length ?? -999;
-
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
         .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
+            var NUGET_API_KEY = Environment.GetEnvironmentVariable( "NUGET_API_KEY" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
-            Log.Warning( $"KEY LENGHT is: ${L} v2" );
 
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
                 .ForEach( x =>

@@ -22,3 +22,5 @@ jobs:
       - name: Nuke Build
         shell: pwsh
         run: .\build.ps1
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
