@@ -23,9 +23,8 @@
         <IncludeSymbols>true</IncludeSymbols>
         <EmbedAllSources>true</EmbedAllSources>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <DebugType>full</DebugType>
+        <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
-        <!--<PackageIcon>icon.png</PackageIcon>-->
     </PropertyGroup>
 
     <ItemGroup>
