@@ -12,7 +12,6 @@ jobs:
     runs-on: windows-latest
     name: Building ConfigurationPlaceholders
     steps:
-      - run: "echo $GITHUB_CONTEXT"
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3
         with:
