@@ -1,6 +1,8 @@
+using Microsoft.Extensions.Configuration;
+
 namespace ConfigurationPlaceholders;
 
 public interface IPlaceholderResolver
 {
-    Boolean GetValue( String key, out String? value );
+    Boolean GetValue( IConfiguration configuration, String key, out String? value );
 }

@@ -13,6 +13,10 @@ public static class ConfigurationPlaceholderEx
         return applicationBuilder;
     }
 
+    public static WebApplicationBuilder AddConfigurationPlaceholders( this WebApplicationBuilder applicationBuilder,
+                                                                      IPlaceholderResolver placeholderResolver ) =>
+        applicationBuilder.AddConfigurationPlaceholders( new List<IPlaceholderResolver> { placeholderResolver } );
+
     public static IHostBuilder AddConfigurationPlaceholders( this IHostBuilder hostBuilder,
                                                              IList<IPlaceholderResolver> placeholderResolvers )
     {
@@ -21,6 +25,10 @@ public static class ConfigurationPlaceholderEx
 
         return hostBuilder;
     }
+
+    public static IHostBuilder AddConfigurationPlaceholders( this IHostBuilder hostBuilder,
+                                                             IPlaceholderResolver placeholderResolver ) =>
+        hostBuilder.AddConfigurationPlaceholders( new List<IPlaceholderResolver> { placeholderResolver } );
 
     public static IConfigurationBuilder AddConfigurationPlaceholders( this IConfigurationBuilder builder,
                                                                       IList<IPlaceholderResolver> placeholderResolvers )
@@ -36,4 +44,8 @@ public static class ConfigurationPlaceholderEx
 
         return builder;
     }
+
+    public static IConfigurationBuilder AddConfigurationPlaceholders( this IConfigurationBuilder builder,
+                                                                      IPlaceholderResolver placeholderResolver ) =>
+        builder.AddConfigurationPlaceholders( new List<IPlaceholderResolver> { placeholderResolver } );
 }

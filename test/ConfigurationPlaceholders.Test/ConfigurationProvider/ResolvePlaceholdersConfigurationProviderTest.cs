@@ -143,7 +143,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
             { "A:B", "NoPlaceholderB" },
             { "Simple", "${Key1}" },
             { "WithText", "Start-${Key1}-End" },
-            { "Multiple", "Start-${Key1}-End ${Key2} ${Key3} ${Key4}" }
+            { "Multiple", "Start-${Key1}-End ${Key2} ${Key3} ${MissingKey1} ${Key4} ${MissingKey2}" }
         };
 
         var configurationRoot = new ConfigurationBuilder()
@@ -191,6 +191,6 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
 
         actual = target.TryGet( "Multiple", out value );
         Assert.True( actual );
-        Assert.Equal( "Start-Value1.1-End Value2 Value3 Value4", value );
+        Assert.Equal( "Start-Value1.1-End Value2 Value3 ${MissingKey1} Value4 ${MissingKey2}", value );
     }
 }

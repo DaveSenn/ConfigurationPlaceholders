@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Configuration;
+
 namespace ConfigurationPlaceholders;
 
 public sealed class InMemoryPlaceholderResolver : IPlaceholderResolver
@@ -9,7 +11,7 @@ public sealed class InMemoryPlaceholderResolver : IPlaceholderResolver
 
     #region Implementation of IPlaceholderResolver
 
-    public Boolean GetValue( String key, out String? value ) =>
+    public Boolean GetValue( IConfiguration configuration, String key, out String? value ) =>
         _values.TryGetValue( key, out value );
 
     #endregion
