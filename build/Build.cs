@@ -254,18 +254,18 @@ public sealed class Build : NukeBuild
                             .SetOutputDirectory( ResultNuGetDirectory ) );
         } );
 
-    public Int32 L => NUGET_API_KEY.Length;
+    public Int32 L => NUGET_API_KEY?.Length ?? -999;
 
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
         .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
             Log.Warning( $"KEY LENGHT is: ${L} v2" );
 
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
