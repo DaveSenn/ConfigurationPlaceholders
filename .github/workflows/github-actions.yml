@@ -22,4 +22,4 @@ jobs:
         shell: pwsh
         run: .\build.ps1
       - run: "echo $GITHUB_CONTEXT" 
-      - run: "echo ${{ github.actor }}" 
+      - run: "echo ${{ github.repository_owner }}" 
