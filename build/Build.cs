@@ -1,7 +1,10 @@
 ﻿using System.Text;
 using System.Xml;
 
-[GitHubActions( nameof(NUGET_API_KEY), GitHubActionsImage.WindowsLatest )]
+[GitHubActions( nameof(NUGET_API_KEY), GitHubActionsImage.WindowsLatest,
+                CacheKeyFiles = new[] { "**/global.json", "**/*.csproj" },
+                CacheIncludePatterns = new[] { ".nuke/temp", "~/.nuget/packages" },
+                CacheExcludePatterns = new String[0] )]
 public sealed class Build : NukeBuild
 {
     // ReSharper disable once InconsistentNaming
@@ -252,19 +255,19 @@ public sealed class Build : NukeBuild
         } );
 
     public Int32 L => NUGET_API_KEY.Length;
+
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
         .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
-            
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
             Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
             Log.Warning( $"KEY LENGHT is: ${L} v2" );
-            
+
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
                 .ForEach( x =>
                 {
@@ -276,7 +279,6 @@ public sealed class Build : NukeBuild
                                          .SetSource( "github" )
                                          .EnableSkipDuplicate() );
 
-                    
                     // Push to NuGet.org
                     DotNetNuGetPush( c => c
                                          .SetTargetPath( x )
