@@ -25,6 +25,6 @@ dotnet add package ConfigurationPlaceholders
 
 You can add ConfigurationPlaceholders to your project with the `AddConfigurationPlaceholders` extension method.
 
-```c#:examples/ConsoleApplication/Program.cs
+```csharp:examples/ConsoleApplication/Program.cs
 
 ```
