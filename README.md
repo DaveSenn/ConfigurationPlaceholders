@@ -14,6 +14,11 @@ Adds support for placeholders in any configuration provider (e.g. appsettings.js
 
 Install the [ConfigurationPlaceholders](https://www.nuget.org/packages/ConfigurationPlaceholders/) package from NuGet:
 
+Package manager:
 ```powershell
 Install-Package ConfigurationPlaceholders
+```
+Or via the .NET CLI
+```pwsh
+dotnet add package ConfigurationPlaceholders
 ```
