@@ -1,8 +1,10 @@
 ﻿using System.Text;
 using System.Xml;
 
+[GitHubActions( nameof(NuGetApiKey), GitHubActionsImage.WindowsLatest )]
 public sealed class Build : NukeBuild
 {
+    [Parameter] [Secret] readonly String NuGetApiKey=default!;
     [Solution( GenerateProjects = true )] readonly Solution Solution = default!;
 
     AbsolutePath ResultDirectory => RootDirectory / "result";
@@ -258,22 +260,18 @@ public sealed class Build : NukeBuild
                 {
                     Log.Information( "Start publishing package '{0}' to NuGet.org", x );
 
-                    /*
-                    DotNetNuGetPush(s => s
-                                        .SetTargetPath(x)
-                                        .SetSource(GithubNugetFeed)
-                                        .SetApiKey(GitHubActions.Token)
-                                        .EnableSkipDuplicate() );
-                    */
-                    
                     // run: dotnet nuget push "./bin/Release/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json 
-                    
                     // StartProcess( "dotnet", $"nuget push \"{x}\" --source \"github\"" );
-                    
                     
                     DotNetNuGetPush(c => c
                                         .SetTargetPath(x)
                                         .SetSource("github")
+                                        .EnableSkipDuplicate() );
+                    
+                    DotNetNuGetPush(c => c
+                                        .SetTargetPath(x)
+                                        .SetApiKey( NuGetApiKey )
+                                        .SetSource("https://api.nuget.org/v3/index.json")
                                         .EnableSkipDuplicate() );
                 } );
         } );
