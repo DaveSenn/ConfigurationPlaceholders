@@ -1,5 +1,6 @@
 ﻿using System.Text;
 using System.Xml;
+using Nuke.Common.CI.GitHubActions;
 
 public sealed class Build : NukeBuild
 {
@@ -248,6 +249,12 @@ public sealed class Build : NukeBuild
                             .SetOutputDirectory( ResultNuGetDirectory ) );
         } );
 
+    
+    string GithubNugetFeed => GitHubActions != null
+        ? $"https://nuget.pkg.github.com/{GitHubActions.RepositoryOwner}/index.json"
+        : null;
+    static GitHubActions GitHubActions => GitHubActions.Instance;
+
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
         .OnlyWhenDynamic( () => IsServerBuild || BuildServerOverride )
@@ -257,9 +264,19 @@ public sealed class Build : NukeBuild
                 .ForEach( x =>
                 {
                     Log.Information( "Start publishing package '{0}' to NuGet.org", x );
-                    // DotNetNuGetPush( y => y.SetTargetPath( x ).SetSource( targetFeed ) );
+                    
+                    DotNetNuGetPush(s => s
+                                        .SetTargetPath(x)
+                                        .SetSource(GithubNugetFeed)
+                                        .SetApiKey(GitHubActions.Token)
+                                        .EnableSkipDuplicate() );
+                    
+                 
+                    
                 } );
             // https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry
+            // dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/OWNER/index.json"
+            // dotnet nuget push "bin/Release/OctocatApp.1.0.0.nupkg" --source "github"
         } );
 
     Target CreateAndPushGitTag => _ => _
