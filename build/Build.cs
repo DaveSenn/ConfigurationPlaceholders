@@ -268,6 +268,7 @@ public sealed class Build : NukeBuild
         .DependsOn( CreateAndPushGitTag )
         .Executes( () =>
         {
+            Environment.SetEnvironmentVariable( "NEW_VERSION", Version );
         } );
 
     public static Int32 Main() =>
