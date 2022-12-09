@@ -1,16 +1,6 @@
 ﻿using System.Text;
 using System.Xml;
 
-/*
-[GitHubActions( "", GitHubActionsImage.WindowsLatest,
-                CacheKeyFiles = new[] { " * * / global.json", " * * / *.csproj" },
-                CacheIncludePatterns = new[] { ".nuke/temp", "~/.nuget/packages" },
-                CacheExcludePatterns = new String[0] ,
-                ImportSecrets = new []
-                {
-                    nameof(NUGET_API_KEY)
-                })]
-*/
 public sealed class Build : NukeBuild
 {
     // ReSharper disable once InconsistentNaming
@@ -32,6 +22,9 @@ public sealed class Build : NukeBuild
     GitRepository Repository { get; } = default!;
 
     String Version { get; set; } = "1.0.0";
+
+    [Secret]
+    String? NuGetApiKey => Environment.GetEnvironmentVariable( "NUGET_API_KEY" );
 
     Int32 RequiredCoveragePercentage => 95;
 
@@ -264,13 +257,6 @@ public sealed class Build : NukeBuild
         .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
-            var NUGET_API_KEY = Environment.GetEnvironmentVariable( "NUGET_API_KEY" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
-            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY?.Length ?? -1}" );
-
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
                 .ForEach( x =>
                 {
@@ -285,7 +271,7 @@ public sealed class Build : NukeBuild
                     // Push to NuGet.org
                     DotNetNuGetPush( c => c
                                          .SetTargetPath( x )
-                                         .SetApiKey( NUGET_API_KEY )
+                                         .SetApiKey( NuGetApiKey )
                                          .SetSource( "https://api.nuget.org/v3/index.json" )
                                          .EnableSkipDuplicate() );
                 } );
@@ -296,7 +282,7 @@ public sealed class Build : NukeBuild
         .DependsOn( PublishNuGetPackage )
         .Executes( () =>
         {
-            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH:mm:ss}-release" );
+            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release" );
             Git( "push --tags" );
         } );
 
