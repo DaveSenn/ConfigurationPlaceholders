@@ -21,3 +21,5 @@ jobs:
       - name: Nuke Build
         shell: pwsh
         run: .\build.ps1
+      - run: "echo $GITHUB_CONTEXT" 
+      - run: "echo ${{ github.actor }}" 
