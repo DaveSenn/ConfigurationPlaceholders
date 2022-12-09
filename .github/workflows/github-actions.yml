@@ -19,8 +19,5 @@ jobs:
         shell: pwsh
         run: .\build.ps1
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "START $NEW_VERSION END 2"
-      - run: echo "$GITHUB_CONTEXT"
-      - run: echo "NewVersion ${{env.NEW_VERSION}}"
-      - run: echo "$env:NEW_VERSION"
+      - run: echo "Get-Content -Path .\result\new-version.txt"
       - run: env
