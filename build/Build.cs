@@ -272,9 +272,8 @@ public sealed class Build : NukeBuild
         .DependsOn( CreateAndPushGitTag )
         .Executes( () =>
         {
-            Log.Information( "Set environment variable NEW_VERSION to value {0} ...", Version );
-            Environment.SetEnvironmentVariable( "NEW_VERSION", Version, EnvironmentVariableTarget.Machine );
-            Log.Information( "Variable set {0}", Environment.GetEnvironmentVariable( "NEW_VERSION", EnvironmentVariableTarget.Machine ) );
+            var versionFile = ResultDirectory / "new-version.txt";
+            File.WriteAllText( versionFile, Version );
             Log.Information( "Build completed" );
         } );
 

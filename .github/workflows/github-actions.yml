@@ -24,7 +24,3 @@ jobs:
       - run: echo "NewVersion ${{env.NEW_VERSION}}"
       - run: echo "$env:NEW_VERSION"
       - run: env
-      - uses: rickstaa/action-create-tag@v1
-        with:
-          tag: "$NEW_VERSION"
-          message: "Latest release"
