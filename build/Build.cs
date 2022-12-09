@@ -1,10 +1,11 @@
 ﻿using System.Text;
 using System.Xml;
 
-[GitHubActions( nameof(NuGetApiKey), GitHubActionsImage.WindowsLatest )]
+[GitHubActions( nameof(NUGET_API_KEY), GitHubActionsImage.WindowsLatest )]
 public sealed class Build : NukeBuild
 {
-    [Parameter] [Secret] readonly String NuGetApiKey = default!;
+    // ReSharper disable once InconsistentNaming
+    [Parameter] [Secret] readonly String NUGET_API_KEY = default!;
     [Solution( GenerateProjects = true )] readonly Solution Solution = default!;
 
     AbsolutePath ResultDirectory => RootDirectory / "result";
@@ -250,18 +251,18 @@ public sealed class Build : NukeBuild
                             .SetOutputDirectory( ResultNuGetDirectory ) );
         } );
 
-    public Int32 L => NuGetApiKey.Length;
+    public Int32 L => NUGET_API_KEY.Length;
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
         .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
             
-            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NUGET_API_KEY.Length}" );
             Log.Warning( $"KEY LENGHT is: ${L} v2" );
             
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
@@ -279,7 +280,7 @@ public sealed class Build : NukeBuild
                     // Push to NuGet.org
                     DotNetNuGetPush( c => c
                                          .SetTargetPath( x )
-                                         .SetApiKey( NuGetApiKey )
+                                         .SetApiKey( NUGET_API_KEY )
                                          .SetSource( "https://api.nuget.org/v3/index.json" )
                                          .EnableSkipDuplicate() );
                 } );
