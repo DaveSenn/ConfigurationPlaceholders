@@ -9,6 +9,4 @@
 ![Build](https://github.com/DaveSenn/ConfigurationPlaceholders/actions/workflows/github-actions.yml/badge.svg)
 
 
-[![GitHub Actions](https://img.shields.io/github/workflow/status/DaveSenn/ConfigurationPlaceholders/github-actions?label=build&style=flat-square&logo=github&logoColor=white)]
-
 Adds support for placeholders in any configuration provider (e.g. appsettings.json).
