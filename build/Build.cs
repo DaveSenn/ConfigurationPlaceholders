@@ -259,6 +259,7 @@ public sealed class Build : NukeBuild
                     Log.Information( "Start publishing package '{0}' to NuGet.org", x );
                     // DotNetNuGetPush( y => y.SetTargetPath( x ).SetSource( targetFeed ) );
                 } );
+            // https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry
         } );
 
     Target CreateAndPushGitTag => _ => _
@@ -267,18 +268,15 @@ public sealed class Build : NukeBuild
         .DependsOn( PublishNuGetPackage )
         .Executes( () =>
         {
+            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH:mm:ss}-release" );
+            Git( "push --tags" );
         } );
 
     Target Default => _ => _
         .DependsOn( CreateAndPushGitTag )
         .Executes( () =>
         {
-            var versionFile = ResultDirectory / "new-version.txt";
-            File.WriteAllText( versionFile, Version );
-            Log.Information( "Build completed" );
-
-            Git( "tag TEST" );
-            Git($"push --tags");
+            Log.Information( "Build completed!" );
         } );
 
     public static Int32 Main() =>
