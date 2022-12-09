@@ -22,6 +22,7 @@ jobs:
       - run: echo "START $NEW_VERSION END 2"
       - run: echo "$GITHUB_CONTEXT"
       - run: echo "NewVersion ${{env.NEW_VERSION}}"
+      - run: echo "$env:NEW_VERSION"
       - run: env
       - uses: rickstaa/action-create-tag@v1
         with:
