@@ -13,8 +13,6 @@ jobs:
     name: Building ConfigurationPlaceholders
     steps:
       - run: "echo $GITHUB_CONTEXT"
-      - run: "echo ${{ github.repository_owner }}"
-      - run: "echo ${{ secrets.NUGET_API_KEY }}"
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3
         with:
