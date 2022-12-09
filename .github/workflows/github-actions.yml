@@ -16,10 +16,10 @@ jobs:
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7'
+      - run: "echo $GITHUB_CONTEXT" 
+      - run: "echo ${{ github.repository_owner }}" 
       - name: Setup NuGet
         run: dotnet nuget add source --username DaveSenn --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DaveSenn/index.json"
       - name: Nuke Build
         shell: pwsh
         run: .\build.ps1
-      - run: "echo $GITHUB_CONTEXT" 
-      - run: "echo ${{ github.repository_owner }}" 
