@@ -274,9 +274,6 @@ public sealed class Build : NukeBuild
                     */
                     StartProcess( "dotnet", $"nuget push \"{x}\" --source \"github\"" );
                 } );
-            // https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry
-            // dotnet nuget add source --username DaveSenn --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/OWNER/index.json"
-            // dotnet nuget push "bin/Release/OctocatApp.1.0.0.nupkg" --source "github"
         } );
 
     Target CreateAndPushGitTag => _ => _
