@@ -11,6 +11,10 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: '7'
     - name: Nuke Build
       shell: pwsh
       run: .\build.ps1
