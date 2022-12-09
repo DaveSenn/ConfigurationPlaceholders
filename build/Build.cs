@@ -265,7 +265,16 @@ public sealed class Build : NukeBuild
                                         .SetApiKey(GitHubActions.Token)
                                         .EnableSkipDuplicate() );
                     */
-                    StartProcess( "dotnet", $"nuget push \"{x}\" --source \"github\"" );
+                    
+                    // run: dotnet nuget push "./bin/Release/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json 
+                    
+                    // StartProcess( "dotnet", $"nuget push \"{x}\" --source \"github\"" );
+                    
+                    
+                    DotNetNuGetPush(c => c
+                                        .SetTargetPath(x)
+                                        .SetSource("github")
+                                        .EnableSkipDuplicate() );
                 } );
         } );
 
