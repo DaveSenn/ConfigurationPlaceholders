@@ -276,9 +276,9 @@ public sealed class Build : NukeBuild
             var versionFile = ResultDirectory / "new-version.txt";
             File.WriteAllText( versionFile, Version );
             Log.Information( "Build completed" );
-            
-            
-            
+
+            Git( "tag TEST" );
+            Git($"push --tags");
         } );
 
     public static Int32 Main() =>
