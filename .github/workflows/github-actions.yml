@@ -11,19 +11,19 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7'
-    - name: Nuke Build
-      shell: pwsh
-      run: .\build.ps1
-    - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-    - run: echo "START $NEW_VERSION END 2"
-    - run: echo "$GITHUB_CONTEXT"
-    - run: echo "NewVersion ${{env.NEW_VERSION}}"
-    - run: env
-    - uses: rickstaa/action-create-tag@v1
-      with:
-        tag: "$NEW_VERSION"
-        message: "Latest release"
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7'
+      - name: Nuke Build
+        shell: pwsh
+        run: .\build.ps1
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "START $NEW_VERSION END 2"
+      - run: echo "$GITHUB_CONTEXT"
+      - run: echo "NewVersion ${{env.NEW_VERSION}}"
+      - run: env
+      - uses: rickstaa/action-create-tag@v1
+        with:
+          tag: "$NEW_VERSION"
+          message: "Latest release"
