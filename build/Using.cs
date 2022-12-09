@@ -1,0 +1,18 @@
+﻿global using JetBrains.Annotations;
+global using Nuke.Common;
+global using Nuke.Common.Git;
+global using Nuke.Common.Tooling;
+global using Nuke.Common.Tools.DotNet;
+global using Serilog;
+global using Nuke.Common.CI.TeamCity;
+global using Nuke.Common.Tools.DotCover;
+global using static Nuke.Common.Tooling.ProcessTasks;
+global using static Nuke.Common.IO.FileSystemTasks;
+global using static Nuke.Common.Tools.DotNet.DotNetTasks;
+global using static Nuke.Common.Tooling.ToolPathResolver;
+global using static Nuke.Common.Tools.DotCover.DotCoverTasks;
+global using static Nuke.Common.Tools.Git.GitTasks;
+global using static Nuke.Common.IO.PathConstruction;
+global using Nuke.Common.IO;
+global using Nuke.Common.ProjectModel;
+global using Nuke.Common.Utilities.Collections;

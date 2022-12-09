@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net7.0</TargetFramework>
+        <RootNamespace>NukeBuild</RootNamespace>
+        <NoWarn>CS0649;CS0169;NU5123</NoWarn>
+        <NukeRootDirectory>..</NukeRootDirectory>
+        <NukeScriptDirectory>..</NukeScriptDirectory>
+        <NukeTelemetryVersion>1</NukeTelemetryVersion>
+        <nullable>enable</nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+        <PackageReference Include="Nuke.Common" Version="6.2.1" />
+        <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+        <PackageReference Include="System.Security.Cryptography.Xml" Version="7.0.0" />
+        <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="..\.nuke\temp\**" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageDownload Include="JetBrains.dotCover.CommandLineTools" Version="[2022.3.0]" />
+        <PackageDownload Include="JetBrains.ReSharper.CommandLineTools" Version="[2022.3.0]" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationPlaceholders", "src\ConfigurationPlaceholders\ConfigurationPlaceholders.csproj", "{E4A6040C-5A2B-4FCC-B8D3-D69315B56834}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3D27E3EB-5481-4B74-BEB4-92EB8706475A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{FA62580D-FECA-4D2A-A12F-62F1D7D6A42C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigurationPlaceholders.Test", "test\ConfigurationPlaceholders.Test\ConfigurationPlaceholders.Test.csproj", "{58AD3100-EE58-48EE-B0FD-B676792482F9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_build", "build\_build.csproj", "{0BD81279-47DA-4AE5-8713-DAB6F8C6D34E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E4A6040C-5A2B-4FCC-B8D3-D69315B56834}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4A6040C-5A2B-4FCC-B8D3-D69315B56834}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4A6040C-5A2B-4FCC-B8D3-D69315B56834}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4A6040C-5A2B-4FCC-B8D3-D69315B56834}.Release|Any CPU.Build.0 = Release|Any CPU
+		{58AD3100-EE58-48EE-B0FD-B676792482F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{58AD3100-EE58-48EE-B0FD-B676792482F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{58AD3100-EE58-48EE-B0FD-B676792482F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{58AD3100-EE58-48EE-B0FD-B676792482F9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0BD81279-47DA-4AE5-8713-DAB6F8C6D34E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0BD81279-47DA-4AE5-8713-DAB6F8C6D34E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E4A6040C-5A2B-4FCC-B8D3-D69315B56834} = {3D27E3EB-5481-4B74-BEB4-92EB8706475A}
+		{58AD3100-EE58-48EE-B0FD-B676792482F9} = {FA62580D-FECA-4D2A-A12F-62F1D7D6A42C}
+	EndGlobalSection
+EndGlobal

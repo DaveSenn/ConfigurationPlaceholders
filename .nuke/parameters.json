@@ -1,0 +1,5 @@
+{
+  "$schema": "./build.schema.json",
+  "Solution": "ConfigurationPlaceholders.sln",
+  "NoLogo": true
+}
