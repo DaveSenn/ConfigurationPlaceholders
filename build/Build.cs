@@ -255,6 +255,14 @@ public sealed class Build : NukeBuild
         .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
+            
+            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
                 .ForEach( x =>
                 {
@@ -266,7 +274,6 @@ public sealed class Build : NukeBuild
                                          .SetSource( "github" )
                                          .EnableSkipDuplicate() );
 
-                    Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
                     
                     // Push to NuGet.org
                     DotNetNuGetPush( c => c
