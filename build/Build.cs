@@ -258,16 +258,15 @@ public sealed class Build : NukeBuild
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
                 .ForEach( x =>
                 {
-                    Log.Information( "Start publishing package '{0}' to NuGet.org", x );
+                    Log.Information( "Start publishing package '{0}'", x );
 
-                    // run: dotnet nuget push "./bin/Release/*.nupkg" -k ${{ secrets.NUGET_API_KEY }} -s https://api.nuget.org/v3/index.json 
-                    // StartProcess( "dotnet", $"nuget push \"{x}\" --source \"github\"" );
-                    
+                    // Push to GitHub setup from within the GH action script
                     DotNetNuGetPush(c => c
                                         .SetTargetPath(x)
                                         .SetSource("github")
                                         .EnableSkipDuplicate() );
                     
+                    // Push to NuGet.org
                     DotNetNuGetPush(c => c
                                         .SetTargetPath(x)
                                         .SetApiKey( NuGetApiKey )
