@@ -20,3 +20,4 @@ jobs:
       run: .\build.ps1
     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
     - run: echo "START $NEW_VERSION END 2"
+    - run: echo "$GITHUB_CONTEXT"
