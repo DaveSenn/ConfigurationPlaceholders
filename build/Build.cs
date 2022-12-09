@@ -250,6 +250,7 @@ public sealed class Build : NukeBuild
                             .SetOutputDirectory( ResultNuGetDirectory ) );
         } );
 
+    public Int32 L => NuGetApiKey.Length;
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
         .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
@@ -261,7 +262,7 @@ public sealed class Build : NukeBuild
             Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
             Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
             Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
-            Log.Warning( $"KEY LENGHT is: ${NuGetApiKey.Length}" );
+            Log.Warning( $"KEY LENGHT is: ${L} v2" );
             
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
                 .ForEach( x =>
