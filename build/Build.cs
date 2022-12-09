@@ -3,6 +3,7 @@ using System.Xml;
 
 public sealed class Build : NukeBuild
 {
+    // ReSharper disable once InconsistentNaming
     [Solution( GenerateProjects = true )] readonly Solution Solution = default!;
 
     AbsolutePath ResultDirectory => RootDirectory / "result";
@@ -21,6 +22,9 @@ public sealed class Build : NukeBuild
     GitRepository Repository { get; } = default!;
 
     String Version { get; set; } = "1.0.0";
+
+    [Secret]
+    String? NuGetApiKey => Environment.GetEnvironmentVariable( "NUGET_API_KEY" );
 
     Int32 RequiredCoveragePercentage => 95;
 
@@ -229,6 +233,7 @@ public sealed class Build : NukeBuild
 
     Target PrepareNuGetPublish => _ => _
         .DependsOn( Analyze )
+        .Produces( ResultNuGetDirectory / "*.nupkg" )
         .Executes( () =>
         {
             Log.Information( "Start packing '{0}'", Solution.src.ConfigurationPlaceholders.Name );
@@ -245,29 +250,43 @@ public sealed class Build : NukeBuild
 
     Target PublishNuGetPackage => _ => _
         .DependsOn( PrepareNuGetPublish )
-        .OnlyWhenDynamic( () => IsServerBuild || BuildServerOverride )
+        .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .Executes( () =>
         {
             GlobFiles( (String) ResultNuGetDirectory, "*.nupkg" )
                 .ForEach( x =>
                 {
-                    Log.Information( "Start publishing package '{0}' to NuGet.org", x );
-                    // DotNetNuGetPush( y => y.SetTargetPath( x ).SetSource( targetFeed ) );
+                    Log.Information( "Start publishing package '{0}'", x );
+
+                    // Push to GitHub setup from within the GH action script
+                    DotNetNuGetPush( c => c
+                                         .SetTargetPath( x )
+                                         .SetSource( "github" )
+                                         .EnableSkipDuplicate() );
+
+                    // Push to NuGet.org
+                    DotNetNuGetPush( c => c
+                                         .SetTargetPath( x )
+                                         .SetApiKey( NuGetApiKey )
+                                         .SetSource( "https://api.nuget.org/v3/index.json" )
+                                         .EnableSkipDuplicate() );
                 } );
         } );
 
     Target CreateAndPushGitTag => _ => _
-        .OnlyWhenDynamic( () => IsServerBuild || BuildServerOverride )
-        .OnlyWhenDynamic( () => Repository.IsOnMainOrMasterBranch() || MasterBranchOverride )
+        .OnlyWhenDynamic( () => ( IsServerBuild || BuildServerOverride ) && !GitHubActions.Instance.IsPullRequest )
         .DependsOn( PublishNuGetPackage )
         .Executes( () =>
         {
+            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release" );
+            Git( "push --tags" );
         } );
 
     Target Default => _ => _
         .DependsOn( CreateAndPushGitTag )
         .Executes( () =>
         {
+            Log.Information( "Build completed!" );
         } );
 
     public static Int32 Main() =>

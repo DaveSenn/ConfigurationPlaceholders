@@ -1,20 +1,33 @@
 name: GitHub Actions Build
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: Building ConfigurationPlaceholders
 
 on:
   push:
-    branches: [ master ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ master ]
+    branches: [ '**' ]
 
 jobs:
-  build:
+  setup-job:
     runs-on: windows-latest
+    name: Building ConfigurationPlaceholders
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7'
-    - name: Nuke Build
-      shell: pwsh
-      run: .\build.ps1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7'
+      - name: Setup NuGet
+        run: dotnet nuget add source --username ${{ github.repository_owner }} --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+      - name: Nuke Build
+        shell: pwsh
+        run: .\build.ps1
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.nuget/packages
+            .nuke/temp
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-

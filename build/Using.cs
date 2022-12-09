@@ -16,3 +16,4 @@ global using static Nuke.Common.IO.PathConstruction;
 global using Nuke.Common.IO;
 global using Nuke.Common.ProjectModel;
 global using Nuke.Common.Utilities.Collections;
+global using Nuke.Common.CI.GitHubActions;

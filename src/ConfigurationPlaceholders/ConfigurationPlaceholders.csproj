@@ -17,15 +17,19 @@
         <Product>ConfigurationPlaceholders</Product>
         <RepositoryType>git</RepositoryType>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <RepositoryUrl>TODO</RepositoryUrl>
+        <PackageIcon>icon.png</PackageIcon>
+        <RepositoryUrl>https://github.com/DaveSenn/ConfigurationPlaceholders</RepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         <IncludeSymbols>true</IncludeSymbols>
         <EmbedAllSources>true</EmbedAllSources>
         <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-        <DebugType>full</DebugType>
+        <DebugType>portable</DebugType>
         <DebugSymbols>true</DebugSymbols>
-        <!--<PackageIcon>icon.png</PackageIcon>-->
     </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="icon.png" Pack="true" PackagePath=""/>
+    </ItemGroup>
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleToAttribute">
