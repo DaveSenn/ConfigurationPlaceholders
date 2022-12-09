@@ -5,10 +5,10 @@ on:
   push:
     branches: [ '**' ]
   pull_request:
-    branches: [ master ]
+    branches: [ '**' ]
 
 jobs:
-  example-job:
+  setup-job:
     runs-on: windows-latest
     name: Building ConfigurationPlaceholders
     steps:
