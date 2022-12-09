@@ -1,5 +1,5 @@
 name: GitHub Actions Build
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: Building ConfigurationPlaceholders
 
 on:
   push:
@@ -18,6 +18,3 @@ jobs:
       - name: Nuke Build
         shell: pwsh
         run: .\build.ps1
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "Get-Content -Path .\result\new-version.txt"
-      - run: env

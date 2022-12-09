@@ -233,6 +233,7 @@ public sealed class Build : NukeBuild
 
     Target PrepareNuGetPublish => _ => _
         .DependsOn( Analyze )
+        .Produces( ResultNuGetDirectory / "*.nupkg" )
         .Executes( () =>
         {
             Log.Information( "Start packing '{0}'", Solution.src.ConfigurationPlaceholders.Name );
@@ -275,6 +276,9 @@ public sealed class Build : NukeBuild
             var versionFile = ResultDirectory / "new-version.txt";
             File.WriteAllText( versionFile, Version );
             Log.Information( "Build completed" );
+            
+            
+            
         } );
 
     public static Int32 Main() =>
