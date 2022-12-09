@@ -26,7 +26,9 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
       - uses: actions/cache@v3
         with:
-          path: ~/.nuget/packages
+          path: |
+            ~/.nuget/packages
+            .nuke/temp
           key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
           restore-keys: |
             ${{ runner.os }}-nuget-
