@@ -272,7 +272,7 @@ public sealed class Build : NukeBuild
                                         .SetApiKey(GitHubActions.Token)
                                         .EnableSkipDuplicate() );
                     */
-                    StartProcess( $"dotnet nuget push \"{x}\" --source \"github\"" );
+                    StartProcess( "dotnet", $"nuget push \"{x}\" --source \"github\"" );
                 } );
             // https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry
             // dotnet nuget add source --username DaveSenn --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/OWNER/index.json"
