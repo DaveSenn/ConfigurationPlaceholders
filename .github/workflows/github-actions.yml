@@ -8,13 +8,16 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  example-job:
     runs-on: windows-latest
+    name: Prepare environment
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-dotnet@v3
         with:
           dotnet-version: '7'
+      - name: Setup NuGet
+        run: dotnet nuget add source --username DaveSenn --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/DaveSenn/index.json"
       - name: Nuke Build
         shell: pwsh
         run: .\build.ps1

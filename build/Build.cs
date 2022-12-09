@@ -265,17 +265,17 @@ public sealed class Build : NukeBuild
                 {
                     Log.Information( "Start publishing package '{0}' to NuGet.org", x );
                     
+                    /*
                     DotNetNuGetPush(s => s
                                         .SetTargetPath(x)
                                         .SetSource(GithubNugetFeed)
                                         .SetApiKey(GitHubActions.Token)
                                         .EnableSkipDuplicate() );
-                    
-                 
-                    
+                    */
+                    StartProcess( $"dotnet nuget push \"{x}\" --source \"github\"" );
                 } );
             // https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-nuget-registry
-            // dotnet nuget add source --username USERNAME --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/OWNER/index.json"
+            // dotnet nuget add source --username DaveSenn --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/OWNER/index.json"
             // dotnet nuget push "bin/Release/OctocatApp.1.0.0.nupkg" --source "github"
         } );
 
