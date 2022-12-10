@@ -41,7 +41,7 @@ public sealed class Build : NukeBuild
         {
             var version = "1.0.0";
 
-            // Read ls-version
+            // Read version
             var versionFile = RootDirectory / "version.json";
             var versionJson = SerializationTasks.JsonDeserializeFromFile( versionFile );
             var lsVersion = versionJson["version"]
@@ -49,7 +49,7 @@ public sealed class Build : NukeBuild
             if ( lsVersion is not null )
             {
                 version = lsVersion;
-                Log.Information( "Version from ls-version: {0}", version );
+                Log.Information( "Version from version: {0}", version );
             }
 
             var currentVersion = System.Version.Parse( version );
@@ -57,9 +57,14 @@ public sealed class Build : NukeBuild
             var assemblyVersion = version;
             var fileVersion = version;
 
-            var isMaster = Repository.Branch!.Equals( "master", StringComparison.OrdinalIgnoreCase );
+            var branchName = Repository.Branch!;
+            var isMaster = branchName.Equals( "master", StringComparison.OrdinalIgnoreCase );
             if ( !isMaster )
-                version = $"{version}-preview-{Repository.Branch}";
+            {
+                branchName = branchName.Replace( "/", "-" );
+                version = $"{version}-preview-{branchName}";
+            }
+
             var informationalVersion = $"{version}.{Repository.Commit}";
             Version = version;
 
