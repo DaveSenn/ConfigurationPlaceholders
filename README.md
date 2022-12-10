@@ -1,4 +1,4 @@
-<img width="100px" src="https://github.com/DaveSenn/ConfigurationPlaceholders/blob/master/data/icon_500.png" />
+![Icon](https://github.com/DaveSenn/ConfigurationPlaceholders/blob/master/data/icon_100.png?raw=true)
 
 # ConfigurationPlaceholders 
 
