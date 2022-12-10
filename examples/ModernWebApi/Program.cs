@@ -12,7 +12,7 @@ builder
                                    {
                                        { "FQDN", fullDomainName }
                                    } ),
-                                   MissingPlaceholderValueHandling.UseEmptyValue );
+                                   MissingPlaceholderValueStrategy.UseEmptyValue );
 
 var app = builder.Build();
 app.MapGet( "/GetCertInfo", ( IConfiguration configuration ) => $"Use certificate with subject {configuration["CertificateSubject"]} for HTTPS connection." );
