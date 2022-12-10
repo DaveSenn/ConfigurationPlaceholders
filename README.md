@@ -103,3 +103,7 @@ Resolves placeholder values by searching for environment variables matching the 
 ```c#
 new EnvironmentVariableResolver()
 ```
+
+#### Custom providers
+You can add your own placeholder resolvers by implementing `IPlaceholderResolver`.
+Potential sources could be REST APIs, files, secret stores etc...
