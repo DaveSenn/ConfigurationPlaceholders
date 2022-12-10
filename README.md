@@ -1,4 +1,4 @@
-<img width="100px" src="https://github.com/DaveSenn/ConfigurationPlaceholders/blob/master/data/icon_500.png" />
+![Icon](https://github.com/DaveSenn/ConfigurationPlaceholders/blob/master/data/icon_100.png?raw=true)
 
 # ConfigurationPlaceholders 
 
@@ -52,6 +52,28 @@ Placeholder in the `appsettings.json`:
 
 You can specify any number of placeholder resolvers `IPlaceholderResolver` in the call to `AddConfigurationPlaceholders`.  
 Later added placeholder resolvers `IPlaceholderResolver` will override values from before added placeholder resolvers `IPlaceholderResolver`.
+
+### Placeholder verification
+By default **ConfigurationPlaceholders** will check if values are provided for all placeholders. If there are any missing placeholder values a `ConfigurationPlaceholderMissingException` will be thrown.  
+You can change this behavior by passing another `MissingPlaceholderValueStrategy` to `AddConfigurationPlaceholders`.
+
+The following strategies are available:
+
+#### VerifyAllAtStartup (**default**)
+Will check if values are provided for all placeholders. If there are any missing placeholder values a `ConfigurationPlaceholderMissingException` will be thrown.
+
+#### Throw
+You can think of this one as a lazy execution version of `VerifyAllAtStartup`.  
+A `ConfigurationPlaceholderMissingException` will be thrown when a configuration entry with a missing placeholder value is being accessed. If the value never gets accessed, no exception will be thrown.
+
+#### UseEmptyValue
+Placeholders for which no value is provided will be replaced with an empty string.  
+`"Hello, ${MissingValue}"` will result in `"Hello, "`
+
+#### IgnorePlaceholder
+Placeholders for which no value is provided will not be replaced. The resulting value will still contain the placeholder.
+`"Hello, ${MissingValue}"` will result in `"Hello, ${MissingValue}"`
+
 
 ### Examples
 You can find some examples using **ConfigurationPlaceholders** [here](https://github.com/DaveSenn/ConfigurationPlaceholders/tree/doc/examples)
@@ -188,4 +210,4 @@ You can reference values containing placeholders from placeholders...
 In this example we can see several placeholders referencing values containing other placeholders.  
 E.g. `${Lookup:DbDir}` will be resolved with the value `${Lookup:DataDir}db/` from `Lookup:DbDir` (using `ConfigurationPlaceholderResolver`). `${Lookup:DataDir}` is another placeholder which will be replaced with the value of `Lookup:DataDir` => `X:/Temp/`.
 
-**You can combine values from multiple `IPlaceholderResolver` with multiple configuration sources.**
+**You can combine values from multiple `IPlaceholderResolver` with multiple configuration sources.** 

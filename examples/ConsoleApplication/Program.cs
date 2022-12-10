@@ -5,6 +5,10 @@ using Serilog;
 
 var configuration = new ConfigurationBuilder()
                     .AddJsonFile( "appsettings.json" )
+                    .AddInMemoryCollection( new Dictionary<String, String?>
+                    {
+                        { "Test", "Today is the ${Today} (${Day}) an it is ${Time}" }
+                    } )
                     .AddConfigurationPlaceholders( new List<IPlaceholderResolver>
                     {
                         new InMemoryPlaceholderResolver( new Dictionary<String, String?>
