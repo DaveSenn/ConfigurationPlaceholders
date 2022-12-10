@@ -34,6 +34,22 @@ You can add ConfigurationPlaceholders to your project with the `AddConfiguration
      } ) ); 
 ```
 
+This will replace the placeholder `${FQDN}` with the fully qualified name of the machine running the application.  
+Placeholder in the `appsettings.json`:
+
+```json
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "AllowedHosts": "*",
+  "CertificateSubject": "${FQDN}"
+}
+```
+
 You can specify any number of placeholder resolvers `IPlaceholderResolver` in the call to `AddConfigurationPlaceholders`.  
 Later added placeholder resolvers `IPlaceholderResolver` will override values from before added placeholder resolvers `IPlaceholderResolver`.
 
@@ -47,5 +63,5 @@ new InMemoryPlaceholderResolver( new Dictionary<String, String?>
 {
     { "ApplicationName", Assembly.GetExecutingAssembly().GetName().Name },
     { "ApplicationVersion", Assembly.GetExecutingAssembly().GetName().Version!.ToString() }
-} ),
+} )
 ```
