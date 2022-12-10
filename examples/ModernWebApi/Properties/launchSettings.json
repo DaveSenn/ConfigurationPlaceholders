@@ -3,7 +3,6 @@
   "profiles": {
     "http": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "GetCertInfo",
       "applicationUrl": "http://localhost:5000",

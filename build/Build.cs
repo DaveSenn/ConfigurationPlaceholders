@@ -278,8 +278,8 @@ public sealed class Build : NukeBuild
         .DependsOn( PublishNuGetPackage )
         .Executes( () =>
         {
-            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release" );
-            Git( "push --tags" );
+            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release", logOutput: false );
+            Git( "push --tags", logOutput: false );
         } );
 
     Target Default => _ => _

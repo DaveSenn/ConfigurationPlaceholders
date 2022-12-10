@@ -3,7 +3,6 @@
   "profiles": {
     "http": {
       "commandName": "Project",
-      "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "Configuration",
       "applicationUrl": "http://localhost:5105",
