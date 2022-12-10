@@ -24,10 +24,11 @@ public static class Program
         return Host
                .CreateDefaultBuilder( args )
                .AddConfigurationPlaceholders( new InMemoryPlaceholderResolver( new Dictionary<String, String?>
-               {
-                   { "Framework", framework },
-                   { "OsInfo", RuntimeInformation.OSDescription }
-               } ) )
+                                              {
+                                                  { "Framework", framework },
+                                                  { "OsInfo", RuntimeInformation.OSDescription }
+                                              } ),
+                                              MissingPlaceholderValueHandling.IgnorePlaceholder )
                .ConfigureWebHostDefaults( webBuilder => { webBuilder.UseStartup<Startup>(); } );
     }
 }
