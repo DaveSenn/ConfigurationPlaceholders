@@ -298,7 +298,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
 
         actual = target.TryGet( "NULL-ref", out value );
         Assert.True( actual );
-        Assert.Equal(  String.Empty, value );
+        Assert.Equal( String.Empty, value );
 
         actual = target.TryGet( "WithText", out value );
         Assert.True( actual );

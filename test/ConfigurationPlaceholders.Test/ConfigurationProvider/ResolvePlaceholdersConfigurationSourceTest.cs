@@ -44,8 +44,8 @@ public sealed class ResolvePlaceholdersConfigurationSourceTest
 
         var nestedProblem = new ResolvePlaceholdersConfigurationSource( new ConfigurationManager().AddInMemoryCollection()
                                                                                                   .Build(),
-                                                                        new List<IPlaceholderResolver>() ,
-                                                                        MissingPlaceholderValueHandling.UseEmptyValue);
+                                                                        new List<IPlaceholderResolver>(),
+                                                                        MissingPlaceholderValueHandling.UseEmptyValue );
 
         var configurationSourceMock0 = new Mock<IConfigurationSource>();
         configurationSourceMock0
@@ -67,8 +67,8 @@ public sealed class ResolvePlaceholdersConfigurationSourceTest
                                                                  new List<IPlaceholderResolver>
                                                                  {
                                                                      placeholderResolverMock0.Object
-                                                                 } ,
-                                                                 MissingPlaceholderValueHandling.UseEmptyValue);
+                                                                 },
+                                                                 MissingPlaceholderValueHandling.UseEmptyValue );
 
         var actual = target.Build( configurationBuilderMock.Object );
         Assert.IsType<ResolvePlaceholdersConfigurationProvider>( actual );
