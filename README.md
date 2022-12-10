@@ -149,9 +149,7 @@ var configuration = new ConfigurationBuilder()
                         new InMemoryPlaceholderResolver( new Dictionary<String, String?>
                         {
                             {
-                                "ApplicationName", Assembly.GetExecutingAssembly()
-                                                           .GetName()
-                                                           .Name
+                                "ApplicationName", Assembly.GetExecutingAssembly().GetName().Name
                             }
                         }
                         } ),
