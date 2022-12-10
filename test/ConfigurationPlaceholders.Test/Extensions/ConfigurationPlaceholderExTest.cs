@@ -35,6 +35,30 @@ public sealed class ConfigurationPlaceholderExTest
     }
 
     [Fact]
+    public void AddConfigurationPlaceholders_ConfigurationBuilder_Single()
+    {
+        var placeholderResolver = new InMemoryPlaceholderResolver( new Dictionary<String, String?>
+        {
+            { "Key1", "MyValue" }
+        } );
+
+        IConfigurationBuilder builder = new ConfigurationBuilder();
+        builder
+            .AddInMemoryCollection( new Dictionary<String, String?>
+            {
+                { "Name", "Value-${Key1}" }
+            } )
+            .Build();
+
+        var actual = builder.AddConfigurationPlaceholders( placeholderResolver );
+        Assert.Same( builder, actual );
+
+        var configuration = builder.Build();
+        var value = configuration["Name"];
+        Assert.Equal( "Value-MyValue", value );
+    }
+
+    [Fact]
     public void AddConfigurationPlaceholders_HostBuilder()
     {
         var placeholderResolvers = new List<IPlaceholderResolver>
@@ -65,6 +89,33 @@ public sealed class ConfigurationPlaceholderExTest
     }
 
     [Fact]
+    public void AddConfigurationPlaceholders_HostBuilder_Single()
+    {
+        var placeholderResolver = new InMemoryPlaceholderResolver( new Dictionary<String, String?>
+        {
+            { "Key1", "MyValue" }
+        } );
+
+        var builder = Host.CreateDefaultBuilder()
+                          .ConfigureAppConfiguration( ( _, config ) =>
+                          {
+                              config.AddInMemoryCollection( new Dictionary<String, String?>
+                              {
+                                  { "Name", "Value-${Key1}" }
+                              } );
+                          } );
+
+        var actual = builder.AddConfigurationPlaceholders( placeholderResolver );
+        Assert.Same( builder, actual );
+
+        var host = builder.Build();
+        var configuration = host.Services.GetRequiredService<IConfiguration>();
+
+        var value = configuration["Name"];
+        Assert.Equal( "Value-MyValue", value );
+    }
+
+    [Fact]
     public void AddConfigurationPlaceholders_WebApplicationBuilder()
     {
         var placeholderResolvers = new List<IPlaceholderResolver>
@@ -81,6 +132,27 @@ public sealed class ConfigurationPlaceholderExTest
             { "Name", "Value-${Key1}" }
         } );
         var actual = builder.AddConfigurationPlaceholders( placeholderResolvers );
+
+        Assert.Same( builder, actual );
+
+        var value = builder.Configuration["Name"];
+        Assert.Equal( "Value-MyValue", value );
+    }
+
+    [Fact]
+    public void AddConfigurationPlaceholders_WebApplicationBuilder_Single()
+    {
+        var placeholderResolver = new InMemoryPlaceholderResolver( new Dictionary<String, String?>
+        {
+            { "Key1", "MyValue" }
+        } );
+
+        var builder = WebApplication.CreateBuilder();
+        builder.Configuration.AddInMemoryCollection( new Dictionary<String, String?>
+        {
+            { "Name", "Value-${Key1}" }
+        } );
+        var actual = builder.AddConfigurationPlaceholders( placeholderResolver );
 
         Assert.Same( builder, actual );
 

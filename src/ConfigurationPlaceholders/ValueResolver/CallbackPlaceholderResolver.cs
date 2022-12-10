@@ -3,21 +3,21 @@ using Microsoft.Extensions.Configuration;
 namespace ConfigurationPlaceholders;
 
 /// <summary>
-///     Resolves placeholder values with a in-memory lookup.
+///     Resolves placeholder values based on value factories.
 /// </summary>
-public sealed class InMemoryPlaceholderResolver : IPlaceholderResolver
+public sealed class CallbackPlaceholderResolver : IPlaceholderResolver
 {
-    private readonly IReadOnlyDictionary<String, String?> _values;
+    private readonly IReadOnlyDictionary<String, Func<String?>> _values;
 
     /// <summary>
     ///     Ctor.
     /// </summary>
     /// <param name="values">
-    ///     Placeholder values.
+    ///     Value factories.
     ///     Key => Placeholder key.
-    ///     Value => Value to use.
+    ///     Value => Value factory.
     /// </param>
-    public InMemoryPlaceholderResolver( IReadOnlyDictionary<String, String?> values ) =>
+    public CallbackPlaceholderResolver( IReadOnlyDictionary<String, Func<String?>> values ) =>
         _values = values;
 
     #region Implementation of IPlaceholderResolver
@@ -29,8 +29,17 @@ public sealed class InMemoryPlaceholderResolver : IPlaceholderResolver
     /// <param name="key">PPlaceholder key.</param>
     /// <param name="value">Value to use; null if value was not found.</param>
     /// <returns>True if a matching value was found; otherwise, false.</returns>
-    public Boolean GetValue( IConfiguration configuration, String key, out String? value ) =>
-        _values.TryGetValue( key, out value );
+    public Boolean GetValue( IConfiguration configuration, String key, out String? value )
+    {
+        if ( !_values.TryGetValue( key, out var factory ) )
+        {
+            value = null;
+            return false;
+        }
+
+        value = factory();
+        return true;
+    }
 
     #endregion
 }

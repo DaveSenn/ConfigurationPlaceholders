@@ -43,11 +43,21 @@ internal sealed class ResolvePlaceholdersConfigurationProvider : IConfigurationP
         if ( value is null )
             return false;
 
+        value = ReplacePlaceholderInValue( value );
+        return true;
+    }
+
+    private String? ReplacePlaceholderInValue( String? value )
+    {
+        if ( value is null )
+            return value;
+
+        var placeholderStartIndex = 0;
         while ( true )
         {
-            var placeholderStartIndex = value.IndexOf( "${", StringComparison.Ordinal );
+            placeholderStartIndex = value.IndexOf( "${", placeholderStartIndex, StringComparison.Ordinal );
             if ( placeholderStartIndex < 0 )
-                return true;
+                return value;
 
             var placeholderEndIndex = value.IndexOf( "}", placeholderStartIndex, StringComparison.Ordinal );
             var placeholderKey = value.Substring( placeholderStartIndex + 2, placeholderEndIndex - placeholderStartIndex - 2 );
@@ -55,11 +65,15 @@ internal sealed class ResolvePlaceholdersConfigurationProvider : IConfigurationP
             for ( var i = _placeholderResolvers.Count - 1; i >= 0; i-- )
             {
                 var resolver = _placeholderResolvers[i];
-                if ( !resolver.GetValue( placeholderKey, out var placeholderValue ) )
+                if ( !resolver.GetValue( _configuration, placeholderKey, out var placeholderValue ) )
                     continue;
+
+                placeholderValue = ReplacePlaceholderInValue( placeholderValue );
                 value = $"{value[..placeholderStartIndex]}{placeholderValue}{value[( placeholderEndIndex + 1 )..]}";
                 break;
             }
+
+            placeholderStartIndex++;
         }
     }
 }

@@ -2,33 +2,31 @@
 
 namespace ConfigurationPlaceholders.Test.ValueResolver;
 
-public sealed class InMemoryPlaceholderResolverTest
+public sealed class CallbackPlaceholderResolverTest
 {
     [Fact]
     public void GetValue()
     {
         var configuration = new Mock<IConfiguration>();
 
-        var values = new Dictionary<String, String?>
+        var values = new Dictionary<String, Func<String?>>
         {
             {
-                "a", Guid.NewGuid()
-                         .ToString()
+                "a", () => "ValueA"
             },
             {
-                "b", Guid.NewGuid()
-                         .ToString()
+                "b", () => "ValueB"
             }
         };
-        var target = new InMemoryPlaceholderResolver( values );
+        var target = new CallbackPlaceholderResolver( values );
 
         var actual = target.GetValue( configuration.Object, "a", out var value );
         Assert.True( actual );
-        Assert.Equal( values["a"], value );
+        Assert.Equal( values["a"](), value );
 
         actual = target.GetValue( configuration.Object, "b", out value );
         Assert.True( actual );
-        Assert.Equal( values["b"], value );
+        Assert.Equal( values["b"](), value );
 
         actual = target.GetValue( configuration.Object, "missing", out value );
         Assert.False( actual );
