@@ -65,3 +65,23 @@ new InMemoryPlaceholderResolver( new Dictionary<String, String?>
     { "ApplicationVersion", Assembly.GetExecutingAssembly().GetName().Version!.ToString() }
 } )
 ```
+
+#### CallbackPlaceholderResolver
+Resolves placeholder values by invoking user provided value factories.
+
+```c#
+new CallbackPlaceholderResolver( new Dictionary<String, Func<String?>>
+{
+    { "Time", () => DateTime.Now.ToString( "HH:mm:ss.fff" ) }
+} )
+```
+
+#### EnvironmentVariableResolver
+Resolves placeholder values by searching for environment variables matching the placeholder key. The search is performed in this priority order:
+1. EnvironmentVariableTarget.Process
+2. EnvironmentVariableTarget.User
+3. EnvironmentVariableTarget.Machine
+
+```c#
+new EnvironmentVariableResolver()
+```
