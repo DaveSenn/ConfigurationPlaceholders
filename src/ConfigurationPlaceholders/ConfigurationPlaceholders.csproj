@@ -32,7 +32,7 @@
     <PackageId>ConfigurationPlaceholders</PackageId>
     <PackageProjectUrl>https://github.com/DaveSenn/ConfigurationPlaceholders</PackageProjectUrl>
     <RespositoryType>git</RespositoryType>
-    <PackageLicenseFile>LICENSE.MD</PackageLicenseFile>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
