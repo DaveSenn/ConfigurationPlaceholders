@@ -1,6 +1,6 @@
 namespace Microsoft.Extensions.Configuration;
 
-public enum MissingPlaceholderValueHandling
+public enum MissingPlaceholderValueStrategy
 {
     VerifyAllAtStartup = 0,
     Throw = 1,

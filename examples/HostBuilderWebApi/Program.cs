@@ -28,7 +28,7 @@ public static class Program
                                                   { "Framework", framework },
                                                   { "OsInfo", RuntimeInformation.OSDescription }
                                               } ),
-                                              MissingPlaceholderValueHandling.IgnorePlaceholder )
+                                              MissingPlaceholderValueStrategy.IgnorePlaceholder )
                .ConfigureWebHostDefaults( webBuilder => { webBuilder.UseStartup<Startup>(); } );
     }
 }

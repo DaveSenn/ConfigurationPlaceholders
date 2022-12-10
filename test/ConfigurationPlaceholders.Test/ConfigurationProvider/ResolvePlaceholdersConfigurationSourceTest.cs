@@ -25,7 +25,7 @@ public sealed class ResolvePlaceholdersConfigurationSourceTest
                                                                  {
                                                                      placeholderResolverMock0.Object
                                                                  },
-                                                                 MissingPlaceholderValueHandling.UseEmptyValue );
+                                                                 MissingPlaceholderValueStrategy.UseEmptyValue );
 
         var actual = target.Build( configurationBuilderMock.Object );
         Assert.IsType<ResolvePlaceholdersConfigurationProvider>( actual );
@@ -45,7 +45,7 @@ public sealed class ResolvePlaceholdersConfigurationSourceTest
         var nestedProblem = new ResolvePlaceholdersConfigurationSource( new ConfigurationManager().AddInMemoryCollection()
                                                                                                   .Build(),
                                                                         new List<IPlaceholderResolver>(),
-                                                                        MissingPlaceholderValueHandling.UseEmptyValue );
+                                                                        MissingPlaceholderValueStrategy.UseEmptyValue );
 
         var configurationSourceMock0 = new Mock<IConfigurationSource>();
         configurationSourceMock0
@@ -68,7 +68,7 @@ public sealed class ResolvePlaceholdersConfigurationSourceTest
                                                                  {
                                                                      placeholderResolverMock0.Object
                                                                  },
-                                                                 MissingPlaceholderValueHandling.UseEmptyValue );
+                                                                 MissingPlaceholderValueStrategy.UseEmptyValue );
 
         var actual = target.Build( configurationBuilderMock.Object );
         Assert.IsType<ResolvePlaceholdersConfigurationProvider>( actual );

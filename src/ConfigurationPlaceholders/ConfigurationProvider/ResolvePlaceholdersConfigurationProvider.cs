@@ -6,15 +6,15 @@ namespace ConfigurationPlaceholders;
 internal sealed class ResolvePlaceholdersConfigurationProvider : IConfigurationProvider
 {
     private readonly IConfigurationRoot _configuration;
-    private readonly MissingPlaceholderValueHandling _missingPlaceholderValueHandling;
+    private readonly MissingPlaceholderValueStrategy _missingPlaceholderValueStrategy;
     private readonly IList<IPlaceholderResolver> _placeholderResolvers;
 
     public ResolvePlaceholdersConfigurationProvider( IConfigurationRoot root,
                                                      IList<IPlaceholderResolver> placeholderResolvers,
-                                                     MissingPlaceholderValueHandling missingPlaceholderValueHandling )
+                                                     MissingPlaceholderValueStrategy missingPlaceholderValueStrategy )
     {
         _placeholderResolvers = placeholderResolvers;
-        _missingPlaceholderValueHandling = missingPlaceholderValueHandling;
+        _missingPlaceholderValueStrategy = missingPlaceholderValueStrategy;
         _configuration = root;
 
         VerifyPlaceholders();
@@ -83,17 +83,17 @@ internal sealed class ResolvePlaceholdersConfigurationProvider : IConfigurationP
             }
 
             if ( !placeholderValueProvided )
-                switch ( _missingPlaceholderValueHandling )
+                switch ( _missingPlaceholderValueStrategy )
                 {
-                    case MissingPlaceholderValueHandling.VerifyAllAtStartup:
-                    case MissingPlaceholderValueHandling.Throw:
-                        throw new ConfigurationPlaceholderMissing( $"Could not resolve a value for placeholder '{placeholderKey}'." );
+                    case MissingPlaceholderValueStrategy.VerifyAllAtStartup:
+                    case MissingPlaceholderValueStrategy.Throw:
+                        throw new ConfigurationPlaceholderMissingException( $"Could not resolve a value for placeholder '{placeholderKey}'." );
 
-                    case MissingPlaceholderValueHandling.UseEmptyValue:
+                    case MissingPlaceholderValueStrategy.UseEmptyValue:
                         placeholderValue = String.Empty;
                         break;
 
-                    case MissingPlaceholderValueHandling.IgnorePlaceholder:
+                    case MissingPlaceholderValueStrategy.IgnorePlaceholder:
                         placeholderValue = $"${{{placeholderKey}}}";
                         break;
                 }
@@ -108,7 +108,7 @@ internal sealed class ResolvePlaceholdersConfigurationProvider : IConfigurationP
 
     private void VerifyPlaceholders()
     {
-        if ( _missingPlaceholderValueHandling != MissingPlaceholderValueHandling.VerifyAllAtStartup )
+        if ( _missingPlaceholderValueStrategy != MissingPlaceholderValueStrategy.VerifyAllAtStartup )
             return;
 
         foreach ( var (_, value) in _configuration.AsEnumerable() )

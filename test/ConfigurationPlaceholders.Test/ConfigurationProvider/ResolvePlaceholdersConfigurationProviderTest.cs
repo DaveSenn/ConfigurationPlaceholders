@@ -24,7 +24,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                    {
                                                                        placeholderResolverMock0
                                                                    },
-                                                                   MissingPlaceholderValueHandling.IgnorePlaceholder );
+                                                                   MissingPlaceholderValueStrategy.IgnorePlaceholder );
 
         var actual = target.TryGet( "A", out var value );
         Assert.True( actual );
@@ -50,9 +50,9 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                    {
                                                                        placeholderResolverMock0
                                                                    },
-                                                                   MissingPlaceholderValueHandling.Throw );
+                                                                   MissingPlaceholderValueStrategy.Throw );
 
-        Assert.Throws<ConfigurationPlaceholderMissing>( () => _ = target.TryGet( "A", out _ ) );
+        Assert.Throws<ConfigurationPlaceholderMissingException>( () => _ = target.TryGet( "A", out _ ) );
     }
 
     [Fact]
@@ -75,7 +75,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                    {
                                                                        placeholderResolverMock0
                                                                    },
-                                                                   MissingPlaceholderValueHandling.UseEmptyValue );
+                                                                   MissingPlaceholderValueStrategy.UseEmptyValue );
 
         var actual = target.TryGet( "A", out var value );
         Assert.True( actual );
@@ -108,7 +108,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                    {
                                                                        placeholderResolverMock0.Object
                                                                    },
-                                                                   MissingPlaceholderValueHandling.VerifyAllAtStartup );
+                                                                   MissingPlaceholderValueStrategy.VerifyAllAtStartup );
 
         var actual = target.GetChildKeys( Array.Empty<String>(), "A" )
                            .ToList();
@@ -139,7 +139,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                    {
                                                                        placeholderResolverMock0.Object
                                                                    },
-                                                                   MissingPlaceholderValueHandling.VerifyAllAtStartup );
+                                                                   MissingPlaceholderValueStrategy.VerifyAllAtStartup );
 
         var actual = target.GetChildKeys( new[] { "A" }, "A" )
                            .ToList();
@@ -168,7 +168,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                        placeholderResolverMock0.Object,
                                                                        placeholderResolverMock1.Object
                                                                    },
-                                                                   MissingPlaceholderValueHandling.VerifyAllAtStartup );
+                                                                   MissingPlaceholderValueStrategy.VerifyAllAtStartup );
 
         var actual = target.GetReloadToken();
         Assert.Same( changeTokenMock.Object, actual );
@@ -188,7 +188,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                        placeholderResolverMock0.Object,
                                                                        placeholderResolverMock1.Object
                                                                    },
-                                                                   MissingPlaceholderValueHandling.VerifyAllAtStartup );
+                                                                   MissingPlaceholderValueStrategy.VerifyAllAtStartup );
 
         target.Load();
 
@@ -210,12 +210,12 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
 
         var placeholderResolverMock0 = new Mock<IPlaceholderResolver>();
 
-        Assert.Throws<ConfigurationPlaceholderMissing>( () => _ = new ResolvePlaceholdersConfigurationProvider( configurationRoot,
+        Assert.Throws<ConfigurationPlaceholderMissingException>( () => _ = new ResolvePlaceholdersConfigurationProvider( configurationRoot,
                                                                                                                 new List<IPlaceholderResolver>
                                                                                                                 {
                                                                                                                     placeholderResolverMock0.Object
                                                                                                                 },
-                                                                                                                MissingPlaceholderValueHandling.VerifyAllAtStartup ) );
+                                                                                                                MissingPlaceholderValueStrategy.VerifyAllAtStartup ) );
     }
 
     [Fact]
@@ -235,7 +235,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                        placeholderResolverMock0.Object,
                                                                        placeholderResolverMock1.Object
                                                                    },
-                                                                   MissingPlaceholderValueHandling.VerifyAllAtStartup );
+                                                                   MissingPlaceholderValueStrategy.VerifyAllAtStartup );
 
         target.Set( "a", "newValue" );
 
@@ -278,7 +278,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
                                                                        placeholderResolverMock0,
                                                                        placeholderResolverMock1
                                                                    },
-                                                                   MissingPlaceholderValueHandling.IgnorePlaceholder );
+                                                                   MissingPlaceholderValueStrategy.IgnorePlaceholder );
 
         var actual = target.TryGet( "A", out var value );
         Assert.True( actual );
