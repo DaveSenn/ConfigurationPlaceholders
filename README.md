@@ -10,7 +10,7 @@
 
 Adds support for placeholders in **any** configuration source (e.g. appsettings.json).
 
-### Getting started
+## Getting started
 
 Install the [ConfigurationPlaceholders](https://www.nuget.org/packages/ConfigurationPlaceholders/) package from NuGet:
 
@@ -53,7 +53,7 @@ Placeholder in the `appsettings.json`:
 You can specify any number of placeholder resolvers `IPlaceholderResolver` in the call to `AddConfigurationPlaceholders`.  
 Later added placeholder resolvers `IPlaceholderResolver` will override values from before added placeholder resolvers `IPlaceholderResolver`.
 
-### Available placeholder resolvers `IPlaceholderResolver`
+## Available placeholder resolvers `IPlaceholderResolver`
 
 #### InMemoryPlaceholderResolver
 Resolves placeholder values from an in-memory lookup. Works similar like the `AddInMemoryCollection` configuration source.
