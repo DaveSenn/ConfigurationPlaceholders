@@ -36,3 +36,5 @@ You can add ConfigurationPlaceholders to your project with the `AddConfiguration
 
 You can specify any number of placeholder resolvers `IPlaceholderResolver` in the call to `AddConfigurationPlaceholders`.  
 Later added placeholder resolvers `IPlaceholderResolver` will override values from before added placeholder resolvers `IPlaceholderResolver`.
+
+### Available placeholder resolvers `IPlaceholderResolver`
