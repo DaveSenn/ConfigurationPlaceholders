@@ -53,6 +53,10 @@ Placeholder in the `appsettings.json`:
 You can specify any number of placeholder resolvers `IPlaceholderResolver` in the call to `AddConfigurationPlaceholders`.  
 Later added placeholder resolvers `IPlaceholderResolver` will override values from before added placeholder resolvers `IPlaceholderResolver`.
 
+### Examples
+You can find some examples using **ConfigurationPlaceholders** [here](https://github.com/DaveSenn/ConfigurationPlaceholders/tree/doc/examples)
+ 
+
 ## Available placeholder resolvers `IPlaceholderResolver`
 
 #### InMemoryPlaceholderResolver
