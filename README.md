@@ -188,4 +188,4 @@ You can reference values containing placeholders from placeholders...
 In this example we can see several placeholders referencing values containing other placeholders.  
 E.g. `${Lookup:DbDir}` will be resolved with the value `${Lookup:DataDir}db/` from `Lookup:DbDir` (using `ConfigurationPlaceholderResolver`). `${Lookup:DataDir}` is another placeholder which will be replaced with the value of `Lookup:DataDir` => `X:/Temp/`.
 
-**You can combine values from multiple `IPlaceholderResolver` with multiple configuration sources.**
+**You can combine values from multiple `IPlaceholderResolver` with multiple configuration sources.** 
