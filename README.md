@@ -23,7 +23,7 @@ Or via the .NET CLI
 dotnet add package ConfigurationPlaceholders
 ```
 
-You can add ConfigurationPlaceholders to your project with the `AddConfigurationPlaceholders` extension method.
+You can add **ConfigurationPlaceholders** to your project with the `AddConfigurationPlaceholders` extension method.
 
 ```c#
  var builder = WebApplication.CreateBuilder( args ); 
