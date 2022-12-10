@@ -113,7 +113,7 @@ You can add your own placeholder resolvers by implementing `IPlaceholderResolver
 Potential sources could be REST APIs, files, secret stores etc...
 
 
-## How to add ConfigurationPlaceholders to your application
+## How to add **ConfigurationPlaceholders** to your application
 Different application setups require different ways to add **ConfigurationPlaceholders**.
 
 #### WebApplication / minimal API
@@ -157,3 +157,35 @@ var configuration = new ConfigurationBuilder()
                     } )
                     .Build();
 ```
+
+## Recursive placeholders
+You can reference values containing placeholders from placeholders...
+
+```json
+{
+  "Lookup": {
+    "SinksNs": "Serilog.Sinks",
+    "DataDir": "X:/Temp/",
+    "LogDir": "${Lookup:DataDir}logs/",
+    "DbDir": "${Lookup:DataDir}db/"
+  },
+  "Serilog": {
+    "Using": [ "${Lookup:SinksNs}.Console", "${Lookup:SinksNs}.File" ],
+    "MinimumLevel": "Debug",
+    "WriteTo": [
+      { "Name": "Console" },
+      {
+        "Name": "File",
+        "Args": { "path": "${Lookup:LogDir}${ApplicationName}/${ApplicationName}-${ApplicationVersion}.log" }
+      }
+    ]
+  },
+  "Test": "Today is the ${Today} (${Day}) an it is ${Time} ${NoValueDefinedForThisOne}",
+  "LocalDb": "${Lookup:DbDir}store.db"
+}
+```
+
+In this example we can see several placeholders referencing values containing other placeholders.  
+E.g. `${Lookup:DbDir}` will be resolved with the value `${Lookup:DataDir}db/` from `Lookup:DbDir` (using `ConfigurationPlaceholderResolver`). `${Lookup:DataDir}` is another placeholder which will be replaced with the value of `Lookup:DataDir` => `X:/Temp/`.
+
+**You can combine values from multiple `IPlaceholderResolver` with multiple configuration sources.**
