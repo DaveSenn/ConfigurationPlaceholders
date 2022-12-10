@@ -55,7 +55,7 @@ Later added placeholder resolvers `IPlaceholderResolver` will override values fr
 
 ### Examples
 You can find some examples using **ConfigurationPlaceholders** [here](https://github.com/DaveSenn/ConfigurationPlaceholders/tree/doc/examples)
- 
+
 
 ## Available placeholder resolvers `IPlaceholderResolver`
 
@@ -111,3 +111,51 @@ new EnvironmentVariableResolver()
 #### Custom providers
 You can add your own placeholder resolvers by implementing `IPlaceholderResolver`.
 Potential sources could be REST APIs, files, secret stores etc...
+
+
+## How to add ConfigurationPlaceholders to your application
+Different application setups require different ways to add **ConfigurationPlaceholders**.
+
+#### WebApplication / minimal API
+
+```c#
+var builder = WebApplication.CreateBuilder( args );
+builder
+    .AddConfigurationPlaceholders( new InMemoryPlaceholderResolver( new Dictionary<String, String?>
+    {
+        { "FQDN", fullDomainName }
+    } ) );
+```
+
+#### IHostBuilder / "old" ASP.NET / generic host
+
+```c#
+Host
+    .CreateDefaultBuilder( args )
+    .AddConfigurationPlaceholders( new InMemoryPlaceholderResolver( new Dictionary<String, String?>
+    {
+        { "FQDN", fullDomainName }
+    } ) )
+```
+
+#### ConfigurationBuilder / console application
+
+```c#
+var configuration = new ConfigurationBuilder()
+                    .AddJsonFile( "appsettings.json" )
+                    ....
+                    .AddConfigurationPlaceholders( new List<IPlaceholderResolver>
+                    {
+                        new InMemoryPlaceholderResolver( new Dictionary<String, String?>
+                        {
+                            {
+                                "ApplicationName", Assembly.GetExecutingAssembly()
+                                                           .GetName()
+                                                           .Name
+                            }
+                        }
+                        } ),
+                        new EnvironmentVariableResolver()
+                    } )
+                    .Build();
+```

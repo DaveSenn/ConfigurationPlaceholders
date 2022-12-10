@@ -15,8 +15,10 @@ public static class Program
     private static IHostBuilder CreateHostBuilder( String[] args )
     {
         var framework = Assembly
-                        .GetEntryAssembly()?
-                        .GetCustomAttribute<TargetFrameworkAttribute>()?
+                        .GetEntryAssembly()
+                        ?
+                        .GetCustomAttribute<TargetFrameworkAttribute>()
+                        ?
                         .FrameworkName;
 
         return Host
@@ -24,7 +26,7 @@ public static class Program
                .AddConfigurationPlaceholders( new InMemoryPlaceholderResolver( new Dictionary<String, String?>
                {
                    { "Framework", framework },
-                   { "OsInfo", RuntimeInformation.OSDescription },
+                   { "OsInfo", RuntimeInformation.OSDescription }
                } ) )
                .ConfigureWebHostDefaults( webBuilder => { webBuilder.UseStartup<Startup>(); } );
     }
