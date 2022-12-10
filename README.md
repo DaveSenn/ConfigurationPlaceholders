@@ -1,4 +1,4 @@
-![Icon](https://github.com/DaveSenn/ConfigurationPlaceholders/blob/master/data/icon_100.png?raw=true)
+![Icon](https://raw.githubusercontent.com/DaveSenn/ConfigurationPlaceholders/master/data/icon_100.png)
 
 # ConfigurationPlaceholders 
 
