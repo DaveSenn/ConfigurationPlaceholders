@@ -3,6 +3,7 @@ using Microsoft.Extensions.Primitives;
 
 namespace ConfigurationPlaceholders.Test.ValueResolver;
 
+#pragma warning disable CA1861 // Avoid constant arrays as arguments
 public sealed class ResolvePlaceholdersConfigurationProviderTest
 {
     [Fact]
@@ -61,7 +62,7 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
         var expectedConfiguration = new Dictionary<String, String?>
         {
             { "A", "TEST: ${Missing}" },
-            { "B", "${Missing} TEST another value" },
+            { "B", "${Missing} TEST another value" }
         };
 
         var configurationRoot = new ConfigurationBuilder()
@@ -211,11 +212,11 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
         var placeholderResolverMock0 = new Mock<IPlaceholderResolver>();
 
         Assert.Throws<ConfigurationPlaceholderMissingException>( () => _ = new ResolvePlaceholdersConfigurationProvider( configurationRoot,
-                                                                                                                new List<IPlaceholderResolver>
-                                                                                                                {
-                                                                                                                    placeholderResolverMock0.Object
-                                                                                                                },
-                                                                                                                MissingPlaceholderValueStrategy.VerifyAllAtStartup ) );
+                                                                                                                         new List<IPlaceholderResolver>
+                                                                                                                         {
+                                                                                                                             placeholderResolverMock0.Object
+                                                                                                                         },
+                                                                                                                         MissingPlaceholderValueStrategy.VerifyAllAtStartup ) );
     }
 
     [Fact]
@@ -309,3 +310,4 @@ public sealed class ResolvePlaceholdersConfigurationProviderTest
         Assert.Equal( "Start-Value1.1-End Value2 Value3 ${MissingKey1} Value4 ${MissingKey2}", value );
     }
 }
+#pragma warning restore CA1861 // Avoid constant arrays as arguments

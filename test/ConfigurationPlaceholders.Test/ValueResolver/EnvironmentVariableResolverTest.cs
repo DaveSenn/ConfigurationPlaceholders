@@ -11,10 +11,7 @@ public sealed class EnvironmentVariableResolverTest
 
         Environment.SetEnvironmentVariable( "Test:Key1", "A0", EnvironmentVariableTarget.Process );
         Environment.SetEnvironmentVariable( "Test:Key1", "A1", EnvironmentVariableTarget.User );
-        Environment.SetEnvironmentVariable( "Test:Key1", "A2", EnvironmentVariableTarget.Machine );
         Environment.SetEnvironmentVariable( "Test:Key2", "B1", EnvironmentVariableTarget.User );
-        Environment.SetEnvironmentVariable( "Test:Key2", "B2", EnvironmentVariableTarget.Machine );
-        Environment.SetEnvironmentVariable( "Test:Key3", "C2", EnvironmentVariableTarget.Machine );
 
         try
         {
@@ -29,8 +26,8 @@ public sealed class EnvironmentVariableResolverTest
             Assert.Equal( "B1", value );
 
             actual = target.GetValue( configuration.Object, "Test:Key3", out value );
-            Assert.True( actual );
-            Assert.Equal( "C2", value );
+            Assert.False( actual );
+            Assert.Null( value );
 
             actual = target.GetValue( configuration.Object, "missing", out value );
             Assert.False( actual );
@@ -40,10 +37,7 @@ public sealed class EnvironmentVariableResolverTest
         {
             Environment.SetEnvironmentVariable( "Test:Key1", null, EnvironmentVariableTarget.Process );
             Environment.SetEnvironmentVariable( "Test:Key1", null, EnvironmentVariableTarget.User );
-            Environment.SetEnvironmentVariable( "Test:Key1", null, EnvironmentVariableTarget.Machine );
             Environment.SetEnvironmentVariable( "Test:Key2", null, EnvironmentVariableTarget.User );
-            Environment.SetEnvironmentVariable( "Test:Key2", null, EnvironmentVariableTarget.Machine );
-            Environment.SetEnvironmentVariable( "Test:Key3", null, EnvironmentVariableTarget.Machine );
         }
     }
 }

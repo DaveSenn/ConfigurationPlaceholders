@@ -1,7 +1,11 @@
 ﻿using System.Text;
 using System.Xml;
+using Nuke.Common.Utilities;
 
+#pragma warning disable CA1050 // Declare types in namespaces
+#pragma warning disable CA1822 // Mark members as static
 public sealed class Build : NukeBuild
+#pragma warning restore CA1050 // Declare types in namespaces
 {
     // ReSharper disable once InconsistentNaming
     [Solution( GenerateProjects = true )] readonly Solution Solution = default!;
@@ -31,7 +35,7 @@ public sealed class Build : NukeBuild
     Target CleanBeforeBuild => _ => _
         .Executes( () =>
         {
-            EnsureCleanDirectory( ResultDirectory );
+            ResultDirectory.CreateOrCleanDirectory();
         } );
 
     Target SetVersion => _ => _
@@ -43,9 +47,14 @@ public sealed class Build : NukeBuild
 
             // Read version
             var versionFile = RootDirectory / "version.json";
-            var versionJson = SerializationTasks.JsonDeserializeFromFile( versionFile );
-            var lsVersion = versionJson["version"]
-                ?.ToString();
+
+            String? lsVersion = null;
+            versionFile.UpdateJson( versionJson =>
+            {
+                lsVersion = versionJson["version"]
+                    ?.ToString();
+            } );
+
             if ( lsVersion is not null )
             {
                 version = lsVersion;
@@ -60,10 +69,7 @@ public sealed class Build : NukeBuild
             var branchName = Repository.Branch!;
             var isMaster = branchName.Equals( "master", StringComparison.OrdinalIgnoreCase );
             if ( !isMaster )
-            {
-                branchName = branchName.Replace( "/", "-" );
-                version = $"{version}-preview-{branchName}";
-            }
+                version = $"{version}-preview";
 
             var informationalVersion = $"{version}.{Repository.Commit}";
             Version = version;
@@ -283,7 +289,8 @@ public sealed class Build : NukeBuild
         .DependsOn( PublishNuGetPackage )
         .Executes( () =>
         {
-            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release", logOutput: false );
+            var tagName = $"{Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release".Replace( '/', '_' ).Replace( '\\', '_' );
+            Git( $"tag {tagName}", logOutput: false );
             Git( "push --tags", logOutput: false );
         } );
 
@@ -297,3 +304,4 @@ public sealed class Build : NukeBuild
     public static Int32 Main() =>
         Execute<Build>( x => x.Default );
 }
+#pragma warning restore CA1822 // Mark members as static

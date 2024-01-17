@@ -32,7 +32,7 @@ internal sealed class ResolvePlaceholdersConfigurationSource : IConfigurationSou
         List<IConfigurationProvider> providers;
         if ( _configuration is null )
         {
-            providers = new();
+            providers = [];
             // ReSharper disable once LoopCanBeConvertedToQuery
             foreach ( var source in _sources! )
             {

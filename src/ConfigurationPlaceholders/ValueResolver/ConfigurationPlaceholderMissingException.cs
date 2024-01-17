@@ -1,9 +1,5 @@
 namespace ConfigurationPlaceholders;
 
-public sealed class ConfigurationPlaceholderMissingException : Exception
+public sealed class ConfigurationPlaceholderMissingException( String? message ) : Exception( message )
 {
-    public ConfigurationPlaceholderMissingException( String? message )
-        : base( message )
-    {
-    }
 }
