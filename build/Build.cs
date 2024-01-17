@@ -289,7 +289,8 @@ public sealed class Build : NukeBuild
         .DependsOn( PublishNuGetPackage )
         .Executes( () =>
         {
-            Git( $"tag {Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release", logOutput: false );
+            var tagName = $"{Version}-{DateTime.Now:yyyy-MM-dd-HH-mm-ss}-release".Replace( '/', '_' ).Replace( '\\', '_' );
+            Git( $"tag {tagName}", logOutput: false );
             Git( "push --tags", logOutput: false );
         } );
 
