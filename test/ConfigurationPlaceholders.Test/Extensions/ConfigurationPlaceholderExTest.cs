@@ -18,7 +18,7 @@ public sealed class ConfigurationPlaceholderExTest
             } )
         };
 
-        IConfigurationBuilder builder = new ConfigurationBuilder();
+        var builder = new ConfigurationBuilder();
         builder
             .AddInMemoryCollection( new Dictionary<String, String?>
             {
@@ -42,7 +42,7 @@ public sealed class ConfigurationPlaceholderExTest
             { "Key1", "MyValue" }
         } );
 
-        IConfigurationBuilder builder = new ConfigurationBuilder();
+        var builder = new ConfigurationBuilder();
         builder
             .AddInMemoryCollection( new Dictionary<String, String?>
             {

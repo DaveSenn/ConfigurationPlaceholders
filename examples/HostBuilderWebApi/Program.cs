@@ -3,7 +3,9 @@ using System.Runtime.InteropServices;
 using System.Runtime.Versioning;
 using ConfigurationPlaceholders;
 
+#pragma warning disable CA1050 // Declare types in namespaces
 public static class Program
+#pragma warning restore CA1050 // Declare types in namespaces
 {
     public static void Main( String[] args )
     {

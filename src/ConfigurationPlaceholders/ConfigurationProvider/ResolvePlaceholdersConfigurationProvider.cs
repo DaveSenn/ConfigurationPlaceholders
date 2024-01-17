@@ -67,7 +67,7 @@ internal sealed class ResolvePlaceholdersConfigurationProvider : IConfigurationP
             if ( placeholderStartIndex < 0 )
                 return value;
 
-            var placeholderEndIndex = value.IndexOf( "}", placeholderStartIndex, StringComparison.Ordinal );
+            var placeholderEndIndex = value.IndexOf( '}', placeholderStartIndex );
             var placeholderKey = value.Substring( placeholderStartIndex + 2, placeholderEndIndex - placeholderStartIndex - 2 );
 
             var placeholderValueProvided = false;

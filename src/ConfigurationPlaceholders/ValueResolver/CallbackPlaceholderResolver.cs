@@ -5,21 +5,16 @@ namespace ConfigurationPlaceholders;
 /// <summary>
 ///     Resolves placeholder values based on value factories.
 /// </summary>
-public sealed class CallbackPlaceholderResolver : IPlaceholderResolver
+/// <remarks>
+///     Ctor.
+/// </remarks>
+/// <param name="values">
+///     Value factories.
+///     Key => Placeholder key.
+///     Value => Value factory.
+/// </param>
+public sealed class CallbackPlaceholderResolver( IReadOnlyDictionary<String, Func<String?>> values ) : IPlaceholderResolver
 {
-    private readonly IReadOnlyDictionary<String, Func<String?>> _values;
-
-    /// <summary>
-    ///     Ctor.
-    /// </summary>
-    /// <param name="values">
-    ///     Value factories.
-    ///     Key => Placeholder key.
-    ///     Value => Value factory.
-    /// </param>
-    public CallbackPlaceholderResolver( IReadOnlyDictionary<String, Func<String?>> values ) =>
-        _values = values;
-
     #region Implementation of IPlaceholderResolver
 
     /// <summary>
@@ -31,7 +26,7 @@ public sealed class CallbackPlaceholderResolver : IPlaceholderResolver
     /// <returns>True if a matching value was found; otherwise, false.</returns>
     public Boolean GetValue( IConfiguration configuration, String key, out String? value )
     {
-        if ( !_values.TryGetValue( key, out var factory ) )
+        if ( !values.TryGetValue( key, out var factory ) )
         {
             value = null;
             return false;
