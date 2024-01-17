@@ -66,10 +66,10 @@ public sealed class Build : NukeBuild
             var assemblyVersion = version;
             var fileVersion = version;
 
-            var branchName = Repository.Branch!.Replace( '/', '_' ).Replace( '\\', '_' );
+            var branchName = Repository.Branch!;
             var isMaster = branchName.Equals( "master", StringComparison.OrdinalIgnoreCase );
             if ( !isMaster )
-                version = $"{version}-preview-{branchName}";
+                version = $"{version}-preview";
 
             var informationalVersion = $"{version}.{Repository.Commit}";
             Version = version;
